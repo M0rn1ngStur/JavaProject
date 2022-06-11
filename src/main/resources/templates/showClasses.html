@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classes</title>
+</head>
+<body>
+    <table>
+        <thead id="thead">
+
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+<script>
+/*<![CDATA[*/
+    var elements = /*[[${element}]]*/ 'default';
+    Object.keys(elements[0]).forEach((key) => {
+        var tr = document.createElement("tr");
+        var th = document.createElement("th");
+        th.innerHTML = key;
+        tr.append(th);
+        document.getElementById("thead").append(tr);
+    })
+    elements.forEach((el) => {
+        el.forEach((key, value) => {
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            td.innerHTML = value;
+            tr.append(td);
+            document.getElementById("tbody").append(tr);
+        })
+    })
+
+/*]]>*/
+
+</script>
+</body>
+</html>
