@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+</head>
+<body>
+<table>
+    <thead id="thead">
+
+    </thead>
+    <tbody id="tbody">
+
+    </tbody>
+</table>
+<script>
+/*<![CDATA[*/
+    var elements = eval("[[${element}]]".replace(/&#39;/g, "'"));
+
+    elements.map((el,id) => {
+        if(id == 0) {
+            var tr = document.createElement("tr");
+            Object.keys(el).map((key) => {
+                var th = document.createElement("th");
+                th.innerHTML = key;
+                tr.append(th);
+            })
+            document.getElementById("thead").append(tr);
+        }
+        var tr = document.createElement("tr");
+        Object.values(el).map((value) => {
+            var td = document.createElement("td");
+            td.innerHTML = value;
+            tr.append(td);
+        })
+        document.getElementById("tbody").append(tr);
+    })
+
+/*]]>*/
+
+</script>
+</body>
+</html>

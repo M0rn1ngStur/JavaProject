@@ -4,22 +4,22 @@ import java.util.Date;
 
 public class ClassEntity {
 
-    private long id;
+    private String id;
     private String className;
 
     public ClassEntity() { }
 
-    public ClassEntity(int id, String className) {
+    public ClassEntity(String id, String className) {
 
         this.id = id;
         this.className = className;
     }
 
-    public long getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -29,5 +29,10 @@ public class ClassEntity {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    @Override
+    public String toString() {
+        return "{ id: '" + String.valueOf(id) + "', className: '" + className + "' }";
     }
 }

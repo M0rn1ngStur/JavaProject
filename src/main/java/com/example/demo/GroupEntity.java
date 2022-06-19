@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class GroupEntity {
 
-    private long id;
+    private int id;
     private String groupSymbol;
 
     public GroupEntity() { }
@@ -19,7 +19,7 @@ public class GroupEntity {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

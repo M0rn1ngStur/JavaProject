@@ -6,9 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,19 +24,89 @@ public class ClassesController {
             value = "/classes",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public String greeting(Model model) {
+    public String getClasses(Model model) {
         String query = "SELECT id, className  FROM `classes`";
         List<ClassEntity> sclass = this.jdbcTemplate.query(query, new AttendanceRowMapper());
-        System.out.print(sclass.get(0));
-        model.addAttribute("element", sclass);
+        model.addAttribute("element", sclass.toString());
         return "showClasses";
+    }
+
+    @GetMapping(
+            value = "/classes/add",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String addClass() {
+        return "addClass";
+    }
+
+    @PostMapping(
+            path = "/classes/create",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String createClass(@RequestBody ClassEntity classEntity) {
+        String query = "INSERT INTO `classes`(`className`) VALUES ('" + classEntity.getClassName() + "')";
+        try {
+            this.jdbcTemplate.execute(query);
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+        }
+        return "addClass";
+    }
+
+    @GetMapping(
+            value = "/classes/{id}/edit",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public String editClass(Model model, @PathVariable String id) {
+        String query = "SELECT id, className  FROM `classes` WHERE id = " + id;
+        List<ClassEntity> sclass = this.jdbcTemplate.query(query, new AttendanceRowMapper());
+        model.addAttribute("element", sclass.get(0));
+        return "editClass";
+    }
+
+    @PostMapping(
+            path = "/classes/update",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseBody
+    public String updateClass(@RequestBody ClassEntity classEntity) {
+        System.out.println(classEntity.getClassName());
+        System.out.println(classEntity.getId());
+        String query = "UPDATE `classes` SET `className`='" + classEntity.getClassName() + "' WHERE id=" + classEntity.getId();
+        try {
+            this.jdbcTemplate.execute(query);
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+        }
+        return "/classes";
+    }
+
+    @PostMapping(
+            path = "/classes/delete",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseBody
+    public String deleteClass(@RequestBody ClassEntity classEntity) {
+        String query = "DELETE FROM `classes` WHERE id = " + classEntity.getId();
+        try {
+            this.jdbcTemplate.execute(query);
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+        }
+        String query2 = "SELECT id, className  FROM `classes`";
+        List<ClassEntity> sclass = this.jdbcTemplate.query(query2, new AttendanceRowMapper());
+
+        return sclass.toString();
     }
 
     private class AttendanceRowMapper implements RowMapper<ClassEntity> {
         @Override
         public ClassEntity mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
             ClassEntity sclass = new ClassEntity();
-            sclass.setId(resultSet.getLong("id"));
+            sclass.setId(resultSet.getString("id"));
             sclass.setClassName(resultSet.getString("className"));
             return sclass;
         }

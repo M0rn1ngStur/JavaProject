@@ -2,7 +2,7 @@ package com.example.demo;
 
 public class GradeEntity {
 
-    private long id;
+    private int id;
     private String className;
     private int grade;
     private String studentName;
@@ -20,7 +20,7 @@ public class GradeEntity {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -46,5 +46,10 @@ public class GradeEntity {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
+    }
+
+    @Override
+    public String toString() {
+        return "{ id: '" + String.valueOf(id) + "', className: '" + className + "', grade: '" + String.valueOf(grade) + "', studentName: '" + studentName + "' }";
     }
 }

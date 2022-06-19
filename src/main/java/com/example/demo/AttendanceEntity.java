@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class AttendanceEntity {
 
-    private long id;
+    private int id;
     private String className;
     private Date date;
     private String studentName;
@@ -13,7 +13,6 @@ public class AttendanceEntity {
     public AttendanceEntity() { }
 
     public AttendanceEntity(int id, String className, String studentName, Date date, boolean attendance ) {
-
         this.id = id;
         this.className = className;
         this.date = date;
@@ -25,7 +24,7 @@ public class AttendanceEntity {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -59,5 +58,10 @@ public class AttendanceEntity {
 
     public void setStudentName(String studentName) {
         this.studentName = studentName;
+    }
+
+    @Override
+    public String toString() {
+        return "{ id: '" + String.valueOf(id) + "', className: '" + className + "', date: '" + date.toString() + "', studentName: '" + studentName + "', attendance: '" + attendance + "' }";
     }
 }

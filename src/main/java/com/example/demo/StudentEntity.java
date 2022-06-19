@@ -2,7 +2,7 @@ package com.example.demo;
 
 public class StudentEntity {
 
-    private long id;
+    private int id;
     private String name;
     private String groupSymbol;
 
@@ -18,7 +18,7 @@ public class StudentEntity {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -38,5 +38,8 @@ public class StudentEntity {
         this.groupSymbol = groupSymbol;
     }
 
-
+    @Override
+    public String toString() {
+        return "{ id: '" + String.valueOf(id) + "', name: '" + name + "', groupSymbol: '" + groupSymbol +"' }";
+    }
 }

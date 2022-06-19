@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classes</title>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<a href="/classes">BACK</a>
+<form>
+    <input type="hidden" id="id" name="id" th:value="${element.id}" />
+    <input type="text" id="className" name="className" th:value="${element.className}" />
+    <button type="submit">Submit</button>
+</form>
+<script>
+/*<![CDATA[*/
+ function convertFormToJSON(form) {
+  const array = $(form).serializeArray(); // Encodes the set of form elements as an array of names and values.
+  const json = {};
+  $.each(array, function () {
+    json[this.name] = this.value || "";
+  });
+  return json;
+}
+    var form = $("form")
+
+    form.on( "submit", function( event ) {
+            event.preventDefault();
+            const data = convertFormToJSON(event.target);
+            $.ajax({
+                url: "/classes/update",
+                type: 'POST',  // http method
+                contentType: "application/json",
+                data: JSON.stringify(data)
+            }).always(({responseText}) => location.href = responseText)
+        })
+
+/*]]>*/
+
+</script>
+</body>
+</html>
