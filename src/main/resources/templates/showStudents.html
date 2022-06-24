@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Students</title>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
+<a href="students/add" >Add</a>
+<a href="/" >Back</a>
 <table>
     <thead id="thead">
 
@@ -15,17 +21,23 @@
 </table>
 <script>
 /*<![CDATA[*/
-    var elements = eval("[[${element}]]".replace(/&#39;/g, "'"));
-
-    elements.map((el,id) => {
-        if(id == 0) {
+var theadEmpty = true;
+var urlHelper = "students/"
+function createElements(elems) {
+    $("tbody").empty();
+    elems.map((el,id) => {
+        if(theadEmpty) {
             var tr = document.createElement("tr");
             Object.keys(el).map((key) => {
                 var th = document.createElement("th");
                 th.innerHTML = key;
                 tr.append(th);
             })
+            var th = document.createElement("th");
+            th.innerHTML = "actions";
+            tr.append(th);
             document.getElementById("thead").append(tr);
+            theadEmpty = false;
         }
         var tr = document.createElement("tr");
         Object.values(el).map((value) => {
@@ -33,8 +45,33 @@
             td.innerHTML = value;
             tr.append(td);
         })
+        var td = document.createElement("td");
+        var editbtn = document.createElement("a");
+        editbtn.href = urlHelper + el.id + "/edit";
+        editbtn.innerHTML = "edit";
+        td.appendChild(editbtn);
+        var deletebtn = document.createElement("a");
+        deletebtn.innerHTML = "delete"
+        deletebtn.addEventListener('click', (e) => deleteElement(e.target, el.id));
+        td.appendChild(deletebtn);
+        tr.append(td);
         document.getElementById("tbody").append(tr);
     })
+    }
+    function deleteElement(target, id) {
+        $.ajax({
+            url: urlHelper + "delete",
+            type: 'POST',  // http method
+            contentType: "application/json",
+            data: JSON.stringify({id: id})
+        })
+        .always(({responseText}) => {
+            alert("Element was deleted");
+            createElements(eval(responseText));
+        })
+    }
+    var elements = eval("[[${element}]]".replace(/&#39;/g, "'"));
+    createElements(elements);
 
 /*]]>*/
 

@@ -2,20 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Class</title>
+    <title>Add Grade</title>
     <script
             src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous"></script>
 </head>
 <body>
-    <a href="/classes">Back</a>
-    <form>
-        <input type="hidden" id="id" name="id" value="" />
-        <input type="text" id="className" name="className" placeholder="className"/>
-        <button type="submit">Submit</button>
-    </form>
-    <script>
+<a href="/grades">Back</a>
+<form>
+    <input type="hidden" id="id" name="id" value="" />
+    <input type="text" id="grade" name="grade" placeholder="grade"/>
+    <input type="text" id="studentId" name="studentId" placeholder="studentId"/>
+    <input type="text" id="classId" name="classId" placeholder="classId"/>
+    <button type="submit">Submit</button>
+</form>
+<script>
         function convertFormToJSON(form) {
   const array = $(form).serializeArray(); // Encodes the set of form elements as an array of names and values.
   const json = {};
@@ -29,7 +31,7 @@
             const data = convertFormToJSON(event.target);
             console.log(data)
             $.ajax({
-                url: "/classes/create",
+                url: "/grades/create",
                 type: 'POST',  // http method
                 contentType: "application/json",
                 data: JSON.stringify(data),  // data to submit

@@ -9,10 +9,12 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<a href="/classes">BACK</a>
+<a href="/grades">BACK</a>
 <form>
     <input type="hidden" id="id" name="id" th:value="${element.id}" />
-    <input type="text" id="className" name="className" placeholder="className" th:value="${element.className}" />
+    <input type="text" id="grade" name="grade" placeholder="grade" th:value="${element.grade}"/>
+    <input type="text" id="studentId" name="studentId" placeholder="studentId" th:value="${element.studentId}"/>
+    <input type="text" id="classId" name="classId" placeholder="classId" th:value="${element.classId}"/>
     <button type="submit">Submit</button>
 </form>
 <script>
@@ -31,7 +33,7 @@
             event.preventDefault();
             const data = convertFormToJSON(event.target);
             $.ajax({
-                url: "/classes/update",
+                url: "/grades/update",
                 type: 'POST',  // http method
                 contentType: "application/json",
                 data: JSON.stringify(data)

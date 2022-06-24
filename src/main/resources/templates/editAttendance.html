@@ -2,17 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Class</title>
+    <title>Edit Attendance</title>
     <script
             src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous"></script>
 </head>
 <body>
-<a href="/classes">BACK</a>
+<a href="/attendance">BACK</a>
 <form>
     <input type="hidden" id="id" name="id" th:value="${element.id}" />
-    <input type="text" id="className" name="className" placeholder="className" th:value="${element.className}" />
+    <input type="text" id="studentId" name="studentId" placeholder="studentId" th:value="${element.studentId}" />
+    <input type="date" id="date" name="date" placeholder="date" th:value="${element.date}"/>
+    <input type="text" id="classId" name="classId" placeholder="classId" th:value="${element.classId}"/>
+    <input type="text" id="attendance" name="attendance" placeholder="attendance(0,1)" th:value="${element.attendance}"/>
     <button type="submit">Submit</button>
 </form>
 <script>
@@ -31,7 +34,7 @@
             event.preventDefault();
             const data = convertFormToJSON(event.target);
             $.ajax({
-                url: "/classes/update",
+                url: "/attendance/update",
                 type: 'POST',  // http method
                 contentType: "application/json",
                 data: JSON.stringify(data)

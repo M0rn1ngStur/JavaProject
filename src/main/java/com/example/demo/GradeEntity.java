@@ -3,14 +3,18 @@ package com.example.demo;
 public class GradeEntity {
 
     private int id;
+    private int classId;
+    private int studentId;
     private String className;
     private int grade;
     private String studentName;
 
     public GradeEntity() { }
 
-    public GradeEntity(int id, String className, int grade, String studentName) {
+    public GradeEntity(int id, int classId, int studentId, String className, int grade, String studentName) {
         this.id = id;
+        this.classId = classId;
+        this.studentId = studentId;
         this.className = className;
         this.grade = grade;
         this.studentName = studentName;
@@ -22,6 +26,22 @@ public class GradeEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getClassId() {
+        return this.classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
+
+    public long getStudentId() {
+        return this.studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
     public String getClassName() {

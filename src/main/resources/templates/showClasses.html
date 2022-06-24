@@ -10,6 +10,7 @@
 </head>
 <body>
     <a href="classes/add" >Add</a>
+    <a href="/" >Back</a>
     <table>
         <thead id="thead">
 
@@ -21,6 +22,7 @@
 <script>
 /*<![CDATA[*/
 var theadEmpty = true;
+var urlHelper = "classes/"
 function createElements(elems) {
     $("tbody").empty();
     elems.map((el,id) => {
@@ -45,7 +47,7 @@ function createElements(elems) {
         })
         var td = document.createElement("td");
         var editbtn = document.createElement("a");
-        editbtn.href = "classes/" + el.id + "/edit";
+        editbtn.href = urlHelper + el.id + "/edit";
         editbtn.innerHTML = "edit";
         td.appendChild(editbtn);
         var deletebtn = document.createElement("a");
@@ -58,7 +60,7 @@ function createElements(elems) {
     }
     function deleteElement(target, id) {
         $.ajax({
-            url: "classes/delete",
+            url: urlHelper + "delete",
             type: 'POST',  // http method
             contentType: "application/json",
             data: JSON.stringify({id: id})

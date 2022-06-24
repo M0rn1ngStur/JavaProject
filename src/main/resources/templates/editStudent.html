@@ -9,10 +9,11 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<a href="/classes">BACK</a>
+<a href="/students">BACK</a>
 <form>
     <input type="hidden" id="id" name="id" th:value="${element.id}" />
-    <input type="text" id="className" name="className" placeholder="className" th:value="${element.className}" />
+    <input type="text" id="name" name="name" placeholder="name" th:value="${element.name}"/>
+    <input type="text" id="groupSymbol" name="groupSymbol" placeholder="groupSymbol" th:value="${element.groupSymbol}"/>
     <button type="submit">Submit</button>
 </form>
 <script>
@@ -31,7 +32,7 @@
             event.preventDefault();
             const data = convertFormToJSON(event.target);
             $.ajax({
-                url: "/classes/update",
+                url: "/students/update",
                 type: 'POST',  // http method
                 contentType: "application/json",
                 data: JSON.stringify(data)

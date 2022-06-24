@@ -26,7 +26,7 @@ public class ClassesController {
     )
     public String getClasses(Model model) {
         String query = "SELECT id, className  FROM `classes`";
-        List<ClassEntity> sclass = this.jdbcTemplate.query(query, new AttendanceRowMapper());
+        List<ClassEntity> sclass = this.jdbcTemplate.query(query, new ClassesRowMapper());
         model.addAttribute("element", sclass.toString());
         return "showClasses";
     }
@@ -60,7 +60,7 @@ public class ClassesController {
     )
     public String editClass(Model model, @PathVariable String id) {
         String query = "SELECT id, className  FROM `classes` WHERE id = " + id;
-        List<ClassEntity> sclass = this.jdbcTemplate.query(query, new AttendanceRowMapper());
+        List<ClassEntity> sclass = this.jdbcTemplate.query(query, new ClassesRowMapper());
         model.addAttribute("element", sclass.get(0));
         return "editClass";
     }
@@ -72,8 +72,6 @@ public class ClassesController {
     )
     @ResponseBody
     public String updateClass(@RequestBody ClassEntity classEntity) {
-        System.out.println(classEntity.getClassName());
-        System.out.println(classEntity.getId());
         String query = "UPDATE `classes` SET `className`='" + classEntity.getClassName() + "' WHERE id=" + classEntity.getId();
         try {
             this.jdbcTemplate.execute(query);
@@ -97,12 +95,12 @@ public class ClassesController {
             System.err.println("Got an exception! ");
         }
         String query2 = "SELECT id, className  FROM `classes`";
-        List<ClassEntity> sclass = this.jdbcTemplate.query(query2, new AttendanceRowMapper());
+        List<ClassEntity> sclass = this.jdbcTemplate.query(query2, new ClassesRowMapper());
 
         return sclass.toString();
     }
 
-    private class AttendanceRowMapper implements RowMapper<ClassEntity> {
+    private class ClassesRowMapper implements RowMapper<ClassEntity> {
         @Override
         public ClassEntity mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
             ClassEntity sclass = new ClassEntity();
