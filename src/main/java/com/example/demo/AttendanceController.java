@@ -59,7 +59,7 @@ public class AttendanceController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String editAttendance(Model model, @PathVariable String id) {
-        String query = "SELECT `students`.id as studentId, date, `classes`.id as classId, attendance FROM `attendance`, `students`, `classes` WHERE `students`.id = studentId AND `classes`.id = classId AND WHERE `attendance`.id = " + id;
+        String query = "SELECT `attendance`.id as id, name, className, `students`.id as studentId, date, `classes`.id as classId, attendance FROM `attendance`, `students`, `classes` WHERE `attendance`.id = " + id;
         List<AttendanceEntity> sclass = this.jdbcTemplate.query(query, new AttendanceRowMapper());
         model.addAttribute("element", sclass.get(0));
         return "editAttendance";
@@ -73,11 +73,15 @@ public class AttendanceController {
     @ResponseBody
     public String updateClass(@RequestBody AttendanceEntity attendanceEntity) {
 
-        String query = "UPDATE `attendance` SET `studentId`='"+ attendanceEntity.getStudentId() +"',`date`='"+attendanceEntity.getDate()+"',`classId`='"+attendanceEntity.getClassId()+"',`attendance`='" + attendanceEntity.getAttendance() +"' WHERE id=" + attendanceEntity.getId();
+        String query = "UPDATE `attendance` SET `studentId`='"+attendanceEntity.getStudentId() +
+                "',`date`='"+ attendanceEntity.getDate()+
+                "',`classId`='"+ attendanceEntity.getClassId()+
+                "',`attendance`='" + (attendanceEntity.getAttendance() ? 1 : 0) +
+                "' WHERE id=" + attendanceEntity.getId();
         try {
             this.jdbcTemplate.execute(query);
         } catch (Exception e) {
-            System.err.println("Got an exception! ");
+            System.err.println(e);
         }
         return "/attendance";
     }
