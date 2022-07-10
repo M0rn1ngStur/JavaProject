@@ -11,6 +11,7 @@
 <body>
 <a href="students/add" >Add</a>
 <a href="/" >Back</a>
+<button id="sendMail">Send student list to email</button>
 <table>
     <thead id="thead">
 
@@ -23,7 +24,9 @@
 /*<![CDATA[*/
 var theadEmpty = true;
 var urlHelper = "students/"
+var newElements;
 function createElements(elems) {
+newElements = elems
     $("tbody").empty();
     elems.map((el,id) => {
         if(theadEmpty) {
@@ -72,6 +75,28 @@ function createElements(elems) {
     }
     var elements = eval("[[${element}]]".replace(/&#39;/g, "'"));
     createElements(elements);
+
+    var sendMailBtn = document.getElementById("sendMail")
+    sendMailBtn.addEventListener("click", ()=>{
+        var mailContent = "";
+        newElements.map((newElement) => {
+            for (const [key, value] of Object.entries(newElement)) {
+                mailContent += key +": " + value + "\n"
+
+            }
+            mailContent += "\n\n"
+        })
+        $.ajax({
+            url: urlHelper + "sendMail",
+            type: 'POST',  // http method
+            contentType: "application/json",
+            data: mailContent
+        })
+        .always(() => {
+            alert("Sent")
+        })
+    })
+
 
 /*]]>*/
 

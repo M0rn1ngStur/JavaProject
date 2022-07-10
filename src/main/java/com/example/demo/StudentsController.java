@@ -1,5 +1,11 @@
 package com.example.demo;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,8 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.net.*;
+import java.net.http.HttpResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -79,6 +89,37 @@ public class StudentsController {
             System.err.println("Got an exception! ");
         }
         return "/students";
+    }
+
+    @PostMapping(
+            path = "/students/sendMail"
+    )
+    @ResponseBody
+    public String sendMail(@RequestBody String text) {
+        try {
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            URI address = new URI("http", null, "localhost", 6969, "/send", null, null);
+            HttpPost httppost = new HttpPost(address);
+
+// Request parameters and other properties.
+            List<NameValuePair> params = new ArrayList<NameValuePair>(1);
+            params.add(new BasicNameValuePair("text", text));
+            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+//Execute and get the response.
+            httpclient.execute(httppost);
+
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return "OK";
     }
 
     @PostMapping(
